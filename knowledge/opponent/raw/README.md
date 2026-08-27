@@ -5,7 +5,7 @@ dumps, R6 Tracker screenshots/exports, VOD timestamp notes, old custom-GPT
 conversation exports. Then tell the coach: **"ingest"**.
 
 The coach reads everything, extracts opponent-behavior and self-behavior
-claims into `../brother.md` with per-claim sources, and never modifies or
+claims into `../gio.md` with per-claim sources, and never modifies or
 deletes files in this directory.
 
 Useful things to capture when you make notes after playing:

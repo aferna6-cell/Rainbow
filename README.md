@@ -1,6 +1,6 @@
 # Rainbow — R6 Siege 1v1 Strategy Coach
 
-A terminal coach for Rainbow Six Siege 1v1s (vs. your brother), built as a
+A terminal coach for Rainbow Six Siege 1v1s (vs. Gio), built as a
 Claude Code repo. No overlay is possible — Siege on Xbox exposes no log file
 or live match API (unlike Hearthstone's `Power.log` that powers
 [Replay](https://github.com/aferna6-cell/Replay)) — so this is a
@@ -28,7 +28,7 @@ PATTERN: breaks your 3-round streak of anchoring the objective room
 
 Then you play the round on the Xbox, type one line back (`w` / `l — he did X`),
 and it adapts: journal updated, opponent model counters updated, next call
-adjusted. Over sessions it builds a real model of how your brother plays —
+adjusted. Over sessions it builds a real model of how Gio plays —
 that model, not a tier list, is the edge.
 
 ## Quick start
@@ -36,7 +36,7 @@ that model, not a tier list, is the edge.
 ```bash
 cd Rainbow
 claude          # the coach persona + protocol load from CLAUDE.md
-# then: "new session, Chalet, bomb, I defend first"
+# then: "new session, Oregon, bomb vs Gio, I defend first"
 ```
 
 Feed it your existing gameplay-pattern notes: drop them in
@@ -50,8 +50,10 @@ Feed it your existing gameplay-pattern notes: drop them in
 | `knowledge/dueling/principles.md` | 1v1 theory — how 1v1 re-prices the 5v5 meta |
 | `knowledge/meta/current-meta.md` | Season/patch/ban-rate snapshot, self-refreshing via web search when stale |
 | `knowledge/operators/` | Attacker/defender pricing **for 1v1 specifically** |
+| `knowledge/maps/oregon-vs-gio.md` | **The Oregon counterbook** — route-first plans per site vs Gio |
 | `knowledge/maps/notes.md` | Per-map 1v1 notes, grown from play |
-| `knowledge/opponent/brother.md` | The opponent model — evidence-counted tendencies |
+| `knowledge/research/` | Current YouTube guide transcripts (source-of-truth geometry) |
+| `knowledge/opponent/gio.md` | The opponent model — evidence-counted tendencies |
 | `knowledge/opponent/raw/` | Drop zone for gameplay-pattern snapshots ("ingest") |
 | `data/sessions/` | Round-by-round journal, one file per session |
 
@@ -70,7 +72,7 @@ Feed it your existing gameplay-pattern notes: drop them in
 
 ## Later (optional)
 
-- Pull brother's platform stats from a tracker site into `raw/` for
+- Pull Gio's platform stats from a tracker site into `raw/` for
   tendencies (op pick rates) between sessions.
 - If you ever play on PC, a Replay-style capture layer could be revisited;
   on Xbox there is nothing to parse.
