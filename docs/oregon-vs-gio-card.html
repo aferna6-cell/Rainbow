@@ -1,0 +1,241 @@
+<title>Oregon vs Gio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+  :root{
+    --bg:#101418; --surface:#1A2027; --surface2:#222A33; --line:#2C3540;
+    --text:#E8ECEF; --muted:#8B98A5;
+    --atk:#4FA3E3; --def:#E8853C;
+    --go:#55B87A; --stop:#D95757; --warn:#D9B84F;
+    --atk-dim:rgba(79,163,227,.14); --def-dim:rgba(232,133,60,.14);
+  }
+  :root:not([data-theme="dark"]){}
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#F2F0EC; --surface:#FFFFFF; --surface2:#EAE6DF; --line:#D8D2C8;
+      --text:#1C232B; --muted:#5D6873;
+      --atk:#1F6FB5; --def:#C05F1A;
+      --go:#2E7D4F; --stop:#B23A3A; --warn:#8A6D1C;
+      --atk-dim:rgba(31,111,181,.10); --def-dim:rgba(192,95,26,.10);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#F2F0EC; --surface:#FFFFFF; --surface2:#EAE6DF; --line:#D8D2C8;
+    --text:#1C232B; --muted:#5D6873;
+    --atk:#1F6FB5; --def:#C05F1A;
+    --go:#2E7D4F; --stop:#B23A3A; --warn:#8A6D1C;
+    --atk-dim:rgba(31,111,181,.10); --def-dim:rgba(192,95,26,.10);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font:400 15px/1.5 "IBM Plex Sans",system-ui,sans-serif;
+    padding:0 0 48px;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:0 14px}
+  header{padding:20px 0 6px}
+  .kicker{font:600 12px/1 "Saira Condensed",sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  h1{font:700 40px/1 "Saira Condensed",sans-serif;text-transform:uppercase;letter-spacing:.02em;margin:6px 0 2px;text-wrap:balance}
+  h1 .vs{color:var(--muted);font-weight:600}
+  .sub{color:var(--muted);font-size:13px;margin:0 0 14px}
+
+  .doctrine{
+    border-left:3px solid var(--warn); background:var(--surface);
+    padding:10px 12px; border-radius:0 6px 6px 0; margin:0 0 14px;
+    font-size:14px;
+  }
+  .doctrine b{color:var(--warn)}
+
+  .strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 8px}
+  @media(max-width:430px){.strip{grid-template-columns:1fr}}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+  .panel h3{font:600 12px/1 "Saira Condensed",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+  .mono{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+  .banrow{display:flex;align-items:baseline;gap:8px;font-size:13.5px;margin:3px 0}
+  .banrow .side{font:600 11px/1 "Saira Condensed",sans-serif;letter-spacing:.1em;min-width:64px}
+  .side.a{color:var(--atk)} .side.d{color:var(--def)}
+  .clock{font-size:13px;display:grid;gap:3px}
+  .clock span{color:var(--muted)}
+
+  .perm{display:grid;gap:5px;font-size:13px}
+  .perm b{font-family:"Saira Condensed",sans-serif;letter-spacing:.08em;font-size:12.5px}
+  .perm .g b{color:var(--go)} .perm .y b{color:var(--warn)} .perm .r b{color:var(--stop)}
+
+  .routes{margin:2px 0 14px}
+  .routes table{width:100%;border-collapse:collapse;font-size:13px}
+  .routes td{padding:5px 8px;border-top:1px solid var(--line);vertical-align:top}
+  .routes td:first-child{color:var(--muted);white-space:nowrap;padding-left:0}
+  .routes td:last-child{font-weight:600}
+
+  details{
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    margin:0 0 10px;overflow:hidden;
+  }
+  details.atk{border-left:4px solid var(--atk)}
+  details.def{border-left:4px solid var(--def)}
+  summary{
+    cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;
+    padding:12px 14px;user-select:none;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary:focus-visible{outline:2px solid var(--atk);outline-offset:-2px}
+  .tag{font:700 12px/1 "Saira Condensed",sans-serif;letter-spacing:.1em;padding:4px 7px;border-radius:4px}
+  details.atk .tag{background:var(--atk-dim);color:var(--atk)}
+  details.def .tag{background:var(--def-dim);color:var(--def)}
+  summary .t{font:700 20px/1.05 "Saira Condensed",sans-serif;text-transform:uppercase;letter-spacing:.02em}
+  summary .hint{margin-left:auto;color:var(--muted);font-size:12px;white-space:nowrap}
+  details[open] summary .hint{display:none}
+  .body{padding:0 14px 14px;display:grid;gap:10px}
+  .read{font-size:13px;color:var(--muted)}
+  .read b{color:var(--text)}
+  .pick{background:var(--surface2);border-radius:6px;padding:9px 11px;font-size:14px}
+  .pick b{font-family:"Saira Condensed",sans-serif;letter-spacing:.05em;font-size:15px}
+  ol{margin:0;padding-left:22px;display:grid;gap:6px;font-size:14px}
+  ol li::marker{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--muted)}
+  .iff{border-left:3px solid var(--warn);padding:2px 0 2px 10px;font-size:13.5px}
+  .iff b{color:var(--warn)}
+  .chg{font-size:13px;color:var(--muted)}
+  .chg b{color:var(--text)}
+  .optable{width:100%;border-collapse:collapse;font-size:13px}
+  .optable td{border-top:1px solid var(--line);padding:5px 8px 5px 0;vertical-align:top}
+  .optable td:first-child{color:var(--muted);white-space:nowrap}
+  .optable td:nth-child(2){font-weight:600;white-space:nowrap}
+
+  .never{margin:16px 0 0}
+  .never h3{font:700 16px/1 "Saira Condensed",sans-serif;text-transform:uppercase;letter-spacing:.06em;color:var(--stop);margin:0 0 8px}
+  .never ul{margin:0;padding-left:20px;display:grid;gap:5px;font-size:13.5px}
+  footer{margin-top:22px;color:var(--muted);font-size:12px}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="kicker">Oregon · 1v1 Bomb · Round Card</div>
+  <h1>Oregon <span class="vs">vs</span> Gio</h1>
+  <p class="sub">Route-first. His body repeats; his operator doesn't. After any win, change ≥2 of: op, spawn, entry side, tempo, position, gadget spot, plant side.</p>
+</header>
+
+<div class="doctrine"><b>Never volunteer the aim duel.</b> You win with info, traps, angles, and the clock — every plan below ends in a pre-aimed fight or a plant, not a 50/50.</div>
+
+<div class="strip">
+  <div class="panel">
+    <h3>Ban ladder (confirmed only)</h3>
+    <div class="banrow"><span class="side d">I DEFEND</span><span class="mono">1 Fuze · 2 Grim</span></div>
+    <div class="banrow"><span class="side a">I ATTACK</span><span class="mono">1 Mute · 2 Goyo/Smoke</span></div>
+    <div class="banrow"><span class="side" style="color:var(--muted)">HE BANS</span><span style="color:var(--muted)">whatever just beat him — fallback ready</span></div>
+  </div>
+  <div class="panel">
+    <h3>Attack clock</h3>
+    <div class="clock mono">
+      <div>inside <b>1:40</b> <span>· final info</span> <b>0:50</b></div>
+      <div>execute <b>0:45</b> <span>· plant</span> <b>0:30</b></div>
+      <div><span>post-plant: hold defuser path. Never hunt.</span></div>
+    </div>
+  </div>
+</div>
+<div class="panel" style="margin-bottom:8px">
+  <h3>Fight permissions</h3>
+  <div class="perm">
+    <div class="g"><b>GREEN</b> — pre-aim edge · distraction live · plant/defuse action · side-back angle → take it</div>
+    <div class="y"><b>YELLOW</b> — both aware → only with cover/geometry</div>
+    <div class="r"><b>RED</b> — fresh breach · revenge chase · trap-sound swing · held doorway · ego duel → walk away</div>
+  </div>
+</div>
+
+<div class="routes panel">
+  <h3>His routes (confirmed)</h3>
+  <table>
+    <tr><td>He attacks Basement</td><td>Laundry / Laundry Stairs</td></tr>
+    <tr><td>He attacks Dorms</td><td>Games / Big Window vault</td></tr>
+    <tr><td>He defends Dorms</td><td>back Dorms Main, Big Window side</td></tr>
+    <tr><td>He defends Basement</td><td>Goyo/Smoke stall saved for your execute</td></tr>
+  </table>
+</div>
+
+<details class="def" name="card" open>
+  <summary><span class="tag">DEFEND</span><span class="t">Basement · vs his Laundry push</span><span class="hint">open</span></summary>
+  <div class="body">
+    <div class="read"><b>Read:</b> he comes down Laundry Stairs. Don't anchor Supply like Blue/Freezer are equally likely — and don't be a static target.</div>
+    <div class="pick"><b>PICK — MOZZIE</b> (he hasn't seen it here; his attack runs on drones). C4 in hand.</div>
+    <ol>
+      <li>Prep: pests catching drones at the Laundry Stairs doorway + inside Laundry near the Supply connector.</li>
+      <li>Walls: Laundry↔Freezer — reinforce left half, head-holes right half (your swing line). Supply Closet connector = jumpable head-hole. Rotate Laundry↔Supply. Hatches shut.</li>
+      <li>Hold OFFSET on the Supply/Freezer side, pre-aiming the post-stair crossing through your head-holes. Not the stair duel.</li>
+      <li>Drone ≠ trigger. Move only when his <b>body</b> commits down the stairs. Caught a drone? 3-second look, get off it, reset.</li>
+      <li>He commits into the Laundry choke → C4 or the pre-aimed crossing. GREEN.</li>
+    </ol>
+    <div class="iff"><b>IF</b> Fuze drill / Grim swarm sound → the spot is dead. Move laterally through Supply toward Blue/Bunker NOW; make the fight one room later. Never re-peek the same line.</div>
+    <div class="chg"><b>After it works:</b> next basement defense = <b>Smoke</b> (let him know the route, gas the timing when he commits) → then <b>Kapkan/Frost</b> on the Laundry lane vs his fast tilted push.</div>
+  </div>
+</details>
+
+<details class="def" name="card">
+  <summary><span class="tag">DEFEND</span><span class="t">Dorms · vs Games / Big Window</span><span class="hint">open</span></summary>
+  <div class="body">
+    <div class="read"><b>Read:</b> pressure comes through Games and the Big Window vault. Make that lane blind and expensive; push him to Attic/White/Master where he has no reps.</div>
+    <div class="pick"><b>PICK — MUTE</b> (kills his drone info, not his walls). C4 in hand.</div>
+    <ol>
+      <li>Prep: rotate Kids→Attic (left panel, reinforce the other half). Rotate Kids→Dorms Main. Jumpable head-hole Dorms Main→Games near White Stairs. Double-reinforce Games main wall.</li>
+      <li>Jammers cover the Games/White drone approach — not stacked where a spotted jammer marks you.</li>
+      <li>Hold OFFSET from Big Window: pre-aim the post-vault crossing from the Kids rotate or Trophy-single angle. Never the window duel.</li>
+      <li>React to his <b>body/utility</b> on the window route, not the drone.</li>
+      <li>Hear the vault → C4 the jump-in or take the pre-aimed crossing. GREEN.</li>
+    </ol>
+    <div class="iff"><b>IF</b> Deimos/Snake pings you → do NOT fall back one layer (he's solved that script). Rotate <b>laterally</b> Kids→Attic and re-enter behind the push.</div>
+    <div class="chg"><b>After it works:</b> <b>Smoke</b> (gas the vault timing) → <b>Melusi</b> (banshee under Big Window + Games approach) → <b>Mozzie</b> (steal the lead drone).</div>
+  </div>
+</details>
+
+<details class="atk" name="card">
+  <summary><span class="tag">ATTACK</span><span class="t">Dorms · vs his back-Main anchor</span><span class="hint">open</span></summary>
+  <div class="body">
+    <div class="read"><b>Read:</b> he's deep in Dorms Main, Big Window side. You already know where he is — zero cam hunting, zero full-map clear. Come from the side he isn't watching.</div>
+    <div class="pick"><b>SPAWN — STREET.</b> Pick by his defender (below); default <b>Ace</b>.</div>
+    <ol>
+      <li>First 10s of droning only: confirm back-Main (yes/no), check Master + balcony door for traps. Done droning.</li>
+      <li>Climb Master balcony → Master Bedroom. One room at a time.</li>
+      <li>Take Trophy from the Master side. You now own his flank — he can't leave without crossing you.</li>
+      <li>Open the Closet/main reinforced wall (or Trophy soft walls). New line into site from his blind side: he swings into your pre-aim, or gives up site.</li>
+      <li>Execute ~0:45. Plant toward Games with the new line covering you.</li>
+      <li>Post-plant: hold from Master/Trophy cover on the defuser path. Do not cross into site.</li>
+    </ol>
+    <table class="optable">
+      <tr><td>He's Valk</td><td>Ace</td><td>ignore every cam; open Closet from range</td></tr>
+      <tr><td>Kaid / Bandit</td><td>Striker / Maverick</td><td>self-sufficient denial, same route</td></tr>
+      <tr><td>Mute</td><td>Maverick</td><td>you don't need drones — route-first</td></tr>
+      <tr><td>Goyo</td><td>Flores</td><td>burn Volcáns before 0:40</td></tr>
+      <tr><td>Unknown</td><td>Buck / Ace</td><td>one confirm-drone, then side pressure</td></tr>
+    </table>
+    <div class="iff"><b>IF</b> he starts pre-holding Master (adapting) → next round enter Main Stairs → Armory → Trophy. New spawn + entry, same principle: never through Games/Big Window into his crosshair.</div>
+  </div>
+</details>
+
+<details class="atk" name="card">
+  <summary><span class="tag">ATTACK</span><span class="t">Basement · vs his Goyo/Smoke stall</span><span class="hint">open</span></summary>
+  <div class="body">
+    <div class="read"><b>Read:</b> he saves stall utility for your execute. If Volcáns/gas still own the plant lane at 0:30, the round is already lost — the mid-round IS the utility fight.</div>
+    <div class="pick"><b>PICK — FLORES</b> (Ace if the block is a Kaid'd wall). Spawn Construction/Junkyard side.</div>
+    <ol>
+      <li>Inside by 1:40 via the Bunker-entrance lane — NOT Laundry. That's his lane; he pre-aims it.</li>
+      <li>Cycle: drone only the next room → take it → repeat. Find what the Volcáns/gas cover.</li>
+      <li>1:20–1:00 — burn the denial on purpose: Flores drones / thrown utility trigger the Volcáns from safety.</li>
+      <li>Take the Elbow/Supply-side crossing. Hold it. Patience is yours now.</li>
+      <li>Plant 0:35–0:30 with his stall already spent. Hold the retake path from cover.</li>
+    </ol>
+    <div class="iff"><b>IF</b> he's Smoke → fake the plant footsteps first, bait the gas, then real plant. Never peek a fresh breach.</div>
+  </div>
+</details>
+
+<div class="never">
+  <h3>These lost real matches — never again</h3>
+  <ul>
+    <li>Same structure, new gadget: “utility → droned → fall back one layer → hold next crossing.” He's solved it. Change the structure, not the operator.</li>
+    <li>60-second cam hunts and full-map clears on attack.</li>
+    <li>Repeating the exact winning plan (Nomad decay, Gridlock-everywhere).</li>
+    <li>Reaching 0:30 with his stall utility intact.</li>
+    <li>Paper counters with no spatial plan (Zero into Kaid).</li>
+    <li>Chasing a displaced defender instead of taking the free space and planting.</li>
+  </ul>
+</div>
+
+<footer>Sources: coaching export 2026-08-27 (canonical match history) · current post-modernization Oregon guides (Mar 2026+). Full counterbook: Rainbow repo, <span class="mono">knowledge/maps/oregon-vs-gio.md</span>. No Clash — permanent.</footer>
+</div>
