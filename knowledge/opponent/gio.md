@@ -49,4 +49,4 @@ punishment method (e.g. Mute → Smoke → Mozzie on the same predicted lane).
 - Confirmed bans only — a recommendation is never a logged ban.
 
 ## Live counters (update every round)
-(append here during sessions: `tendency — n/N — status`)
+(managed by scripts/coach.py — `- tendency — hits/obs — status[ · miss streak k]`)
