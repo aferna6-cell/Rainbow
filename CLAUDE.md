@@ -99,8 +99,10 @@ garage again, killed me on entry` or just `w`. On every report:
 - Append the round to today's session file (round, sides, ops, ban, result,
   one-line what-happened).
 - Update `knowledge/opponent/gio.md` **as evidence counters**, not
-  prose rewrites: e.g. "hides off-site: 5/8 defenses". Promote a tendency to
-  "confirmed" at ≥60% over ≥5 observations; demote when it breaks twice.
+  prose rewrites, in its "Live counters" section, one per line:
+  `- hides off-site on defense — 5/8 — confirmed` (append ` · miss streak k`
+  while misses are consecutive). Promote a tendency to "confirmed" at ≥60%
+  over ≥5 observations; mark it "broken" after two consecutive misses.
 - Then immediately give the next round's call, adapted.
 
 ### 4. Session end
@@ -109,6 +111,13 @@ the session file (score, what worked, what he adapted to, top 2 tendencies
 learned, opening plan for next session), update `gio.md`, then commit
 everything with a plain message like `session 2026-08-27: 7-5, notes + model
 update`. Do not push unless asked.
+
+### Scripted mode
+`python3 scripts/coach.py play` runs this protocol as a loop (see README
+"Automation"). In that mode the script owns `data/sessions/`, the confirmed
+ban state, and the "Live counters" section — Claude returns structured
+judgement and never edits those files itself. Prompts that start with
+"SCRIPTED MODE" follow that contract.
 
 ## Ingesting the gameplay snapshot
 When the user drops files into `knowledge/opponent/raw/` (notes, stats

@@ -17,3 +17,8 @@ top tendencies learned, opening plan for next time)
 
 "What happened" is one line, but name the rooms — it feeds the opponent
 model and next round's call.
+
+A row whose last cell is `BANS RESET` marks a ban reset (new ruleset / no OT
+bans); cumulative confirmed bans are counted from the last such row.
+`scripts/coach.py play` writes this file for you; `.state/` (gitignored) holds
+the Claude conversation id so a quit session resumes where it left off.

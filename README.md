@@ -56,6 +56,7 @@ Feed it your existing gameplay-pattern notes: drop them in
 | `knowledge/opponent/gio.md` | The opponent model — evidence-counted tendencies |
 | `knowledge/opponent/raw/` | Drop zone for gameplay-pattern snapshots ("ingest") |
 | `data/sessions/` | Round-by-round journal, one file per session |
+| `scripts/coach.py` | Automation: session loop, upkeep job (see below) |
 
 ## Why this beats a custom GPT / Claude project
 
@@ -69,6 +70,45 @@ Feed it your existing gameplay-pattern notes: drop them in
   as a first-class pillar) — the thing generic tools get wrong.
 - **Versioned.** Every session, model update, and meta refresh is a git
   commit you can inspect or revert.
+
+## Automation
+
+`scripts/coach.py` runs the whole protocol as a loop around headless Claude
+Code (`claude -p`). The script does the bookkeeping deterministically —
+journal rows, confirmed-only cumulative bans, evidence counters (≥60% over
+≥5 → confirmed, 2 straight misses → broken), meta staleness, ingest tracking,
+the end-of-session commit. Claude does the judgement: the round call, reading
+your one-line report, the 5-line summary, meta research, ingest extraction.
+
+```bash
+python3 scripts/coach.py play --first-side def         # Oregon · bomb · Gio by default
+python3 scripts/coach.py play --map Chalet --rules "bomb, bans reset each round"
+python3 scripts/coach.py status                        # meta age, pending raw files, score, counters
+python3 scripts/coach.py refresh-meta [--force]        # web-refresh knowledge/meta/current-meta.md
+python3 scripts/coach.py ingest                        # new files in knowledge/opponent/raw/
+scripts/auto.sh [--push]                               # unattended: refresh-if-stale + ingest + commit
+```
+
+In `play`: it refreshes a stale meta snapshot and ingests new raw files, reads
+`knowledge/` once, prints the Round 1 call, then waits between rounds for:
+
+| Type | Does |
+|---|---|
+| `ban Fuze` / `hisban Mute` | confirm this round's bans (the only bans ever logged) |
+| `w` / `l — he played Fuze, drilled me in Laundry` | log the round, update counters, print the next call |
+| `reset bans` | new ruleset / no OT bans |
+| `done 7-5` | 5-line summary, model update, commit (no push unless `--push`) |
+| `quit` | stop; `play` again resumes the same session and conversation |
+| anything else | a question to the coach, not logged |
+
+Unattended upkeep: run `scripts/auto.sh` daily from cron
+(`17 9 * * * /path/to/Rainbow/scripts/auto.sh --push`) or from a Claude Code
+Routine. It only calls Claude when the meta is >21 days old or `raw/` has a
+file not listed in `raw/.ingested`.
+
+Needs Python 3.10+ and the Claude Code CLI signed in. `RAINBOW_MODEL=sonnet`
+picks the model (default: your Claude Code default). Tests run offline
+against a fake CLI: `python3 -m unittest discover -s tests`.
 
 ## Later (optional)
 
